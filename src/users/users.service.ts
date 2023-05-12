@@ -2,9 +2,9 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '@users/entity/user.entity';
-import { CreateUserDto } from './dto/user.create.dto';
 import { removeFile } from '@shared/file-upload.utils';
 import { UpdateUserDto } from './dto/user.update.dto';
+import { CreateUserDto } from '@users/dto/user.create.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +25,7 @@ export class UsersService {
 	}
 
 	async create(userDto: CreateUserDto) {
-		const { login, password, email, name, surname } = userDto;
+		const { login, password, email, name, surname, patronymic, position } = userDto;
 
 		const userInDb = await this.userRepo.findOne({ where: { email } });
 		if (userInDb) {
@@ -38,6 +38,8 @@ export class UsersService {
 			email,
 			name,
 			surname,
+			patronymic,
+			position,
 		});
 
 		return this.userRepo.save(user);

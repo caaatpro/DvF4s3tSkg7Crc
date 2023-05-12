@@ -11,7 +11,6 @@ import {
 	Min,
 	ValidateNested,
 } from 'class-validator';
-import { UpdateContactsUserDto } from './user.contacts.update.dto';
 
 export class UpdateUserDto {
 	@ApiProperty({
@@ -49,18 +48,6 @@ export class UpdateUserDto {
 	@IsOptional()
 	@IsEmail()
 	email: string;
-
-	@ApiProperty({
-		example: 'Контакты',
-		description: 'Контакты',
-		required: false,
-		type: UpdateContactsUserDto,
-	})
-	@IsNotEmptyObject()
-	@IsDefined()
-	@Type(() => UpdateContactsUserDto)
-	@ValidateNested()
-	contacts: UpdateContactsUserDto;
 
 	@ApiProperty({
 		example: 'Адрес',
