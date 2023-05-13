@@ -1,0 +1,11 @@
+.env.development
+docker-compose.yml
+Dockerfile
+README.md
+test
+.vscode
+.github
+.gitignore
+node_modules
+.vscode
+dist

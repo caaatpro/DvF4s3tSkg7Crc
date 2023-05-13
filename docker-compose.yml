@@ -1,0 +1,16 @@
+version: '3'
+services:
+  api:
+    image: nexus.caaat.pro/repository/docker-projects/company-api:latest
+    container_name: company-api
+    restart: always
+    ports:
+      - 3700:3100
+    env_file: .env
+    volumes:
+      - ./upload:/opt/app/upload
+
+# networks:
+#   bridge-net:
+#     name: bridge-net
+#     external: true
