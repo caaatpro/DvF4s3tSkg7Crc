@@ -5,6 +5,7 @@ import {
 	Entity,
 	Column,
 	BeforeInsert,
+	BeforeUpdate,
 } from 'typeorm';
 
 @Entity('users')
@@ -207,6 +208,7 @@ export class UserEntity extends Base {
 	})
 	searchFull: string;
 
+	@BeforeUpdate()
 	@BeforeInsert()
 	async hashPassword() {
 		const salt = genSaltSync(10);

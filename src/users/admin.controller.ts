@@ -23,6 +23,7 @@ import { CreateUserDto } from './dto/user.create.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.update.dto';
 import { UserDao } from './dao/user.dao';
+import { ChangePassUserDto } from './dto/user.change.pass.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -30,6 +31,29 @@ export class AdminController {
 	constructor(
 		private readonly usersService: UsersService,
 	) {}
+
+	@ApiOperation({
+		summary: 'Создание пользователя',
+		description: 'Создание пользователя.',
+	})
+	@ApiResponse({
+		status: 200,
+		description: 'Всё хорошо',
+		type: SuccessUpdateDao,
+	})
+	@ApiResponse({
+		status: 401,
+		description: 'Пустой или неверный токен.',
+	})
+	// @ApiBearerAuth()
+	@Post('changePass')
+	// @UseGuards(JwtAuthGuard)
+	async changePass(
+		@Body() changePassUserDto: ChangePassUserDto
+	) {
+		await this.usersService.changePass(changePassUserDto);
+		return new SuccessUpdateDao();
+	}
 
 	@ApiOperation({
 		summary: 'Создание пользователя',

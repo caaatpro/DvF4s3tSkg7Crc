@@ -6,6 +6,7 @@ import { removeFile } from '@shared/file-upload.utils';
 import { UpdateUserDto } from './dto/user.update.dto';
 import { CreateUserDto } from '@users/dto/user.create.dto';
 import { SearchUserDto } from './dto/user.search.dto';
+import { ChangePassUserDto } from './dto/user.change.pass.dto';
 
 @Injectable()
 export class UsersService {
@@ -57,6 +58,27 @@ export class UsersService {
 	async update(userId: string, updateUserDto: UpdateUserDto) {
 
 		return this.userRepo.update({ id: userId }, updateUserDto);
+	}
+
+	async changePass(changePassUserDto: ChangePassUserDto) {
+		const { email, password } = changePassUserDto;
+
+		const user = await this.userRepo.findOne({
+			where: {
+				email,
+			}
+		});
+
+		if (!user) {
+			throw new HttpException('Сотрудник не найден', HttpStatus.NOT_FOUND);
+		}
+
+		const toSaveUser = this.userRepo.create({
+			...user,
+			...changePassUserDto,
+		});
+
+		return this.userRepo.save(toSaveUser);
 	}
 
 	async uploadAvatar(userId: string, file: Express.Multer.File) {
