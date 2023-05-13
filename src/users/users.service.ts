@@ -5,6 +5,7 @@ import { UserEntity } from '@users/entity/user.entity';
 import { removeFile } from '@shared/file-upload.utils';
 import { UpdateUserDto } from './dto/user.update.dto';
 import { CreateUserDto } from '@users/dto/user.create.dto';
+import { SearchUserDto } from './dto/user.search.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,11 +14,19 @@ export class UsersService {
 		private readonly userRepo: Repository<UserEntity>,
 	) {}
 
+	async find(searchUserDto: SearchUserDto) {
+		return this.userRepo
+			.createQueryBuilder()
+			.select()
+			.where('searchFull LIKE :searchFull', {searchFull: `%${searchUserDto.text}%`})
+			.limit(10)
+			.getMany();
+	}
+
 	async findById(id: string) {
 		return this.userRepo.findOne({
 			where: { id }
 		});
-
 	}
 
 	async findByEmail(email: string) {

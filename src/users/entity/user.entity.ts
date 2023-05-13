@@ -67,9 +67,9 @@ export class UserEntity extends Base {
 	 */
 	@Column({
 		type: 'varchar',
-		nullable: true,
+		nullable: false,
 	})
-	birthDate: string | null;
+	birthDate: string;
 
 	/**
 	 * Пароль сотрудника
@@ -140,7 +140,7 @@ export class UserEntity extends Base {
 	 */
 	@Column({
 		type: 'varchar',
-		nullable: true,
+		nullable: false,
 	})
 	city: string;
 
@@ -192,6 +192,20 @@ export class UserEntity extends Base {
 		default: false,
 	})
 	isAdmin: boolean;
+
+	/**
+	 * Для поиска
+	 *
+	 * @type {string}
+	 * @memberof UserEntity
+	 */
+	@Column({
+		type: 'varchar',
+		nullable: true,
+		default: '',
+		unique: true,
+	})
+	searchFull: string;
 
 	@BeforeInsert()
 	async hashPassword() {

@@ -8,6 +8,7 @@ import {
 	FileTypeValidator,
 	MaxFileSizeValidator,
 	UseInterceptors,
+	Get,
 	Body} from '@nestjs/common';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -51,6 +52,26 @@ export class AdminController {
 	) {
 		await this.usersService.create(createUserDto);
 		return new SuccessUpdateDao();
+	}
+
+	@ApiOperation({
+		summary: 'Создание пользователя',
+		description: 'Создание пользователя.',
+	})
+	@ApiResponse({
+		status: 200,
+		description: 'Всё хорошо',
+		type: SuccessUpdateDao,
+	})
+	@ApiResponse({
+		status: 401,
+		description: 'Пустой или неверный токен.',
+	})
+	// @ApiBearerAuth()
+	@Get('users')
+	// @UseGuards(JwtAuthGuard)
+	async getUsers() {
+		return [];
 	}
 
 	@ApiOperation({

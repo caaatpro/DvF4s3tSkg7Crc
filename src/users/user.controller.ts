@@ -17,11 +17,15 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { UserEntity } from '@users/entity/user.entity';
 import { User } from '@users/user.decorator';
 import { JwtAuthGuard } from '@auth/guards/jvt.guard';
-import { UserDao } from './dao/user.dao';
 import { UsersService } from './users.service';
 import { avatarFileName } from '@shared/file-upload.utils';
 import { SuccessUpdateDao } from '@shared/dao/success.update.dao';
 import { UpdateUserDto } from './dto/user.update.dto';
+import { UserDao } from './dao/user.dao';
+import { existsSync } from 'fs';
+import { join } from 'path';
+import { UserShortDao } from './dao/user-short.dao';
+import { SearchUserDto } from './dto/user.search.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -29,6 +33,54 @@ export class UserController {
 	constructor(
 		private readonly usersService: UsersService,
 	) {}
+
+	@ApiOperation({
+		summary: 'Поиск по сотрудникам',
+		description: 'Поиск по сотрудникам.',
+	})
+	@ApiResponse({
+		status: 200,
+		description: 'Всё хорошо',
+		type: UserDao,
+		isArray: true,
+	})
+	@ApiResponse({
+		status: 401,
+		description: 'Пустой или неверный токен.',
+	})
+	// @ApiBearerAuth()
+	@Post('searchShort')
+	// @UseGuards(JwtAuthGuard)
+	async searchShort(
+		@Body() searchUserDto: SearchUserDto
+	) {
+		const list = await this.usersService.find(searchUserDto);
+		return list.map((item) => new UserShortDao(item));
+	}
+
+	@ApiOperation({
+		summary: 'Список сотрудников',
+		description: 'Список сотрудников.',
+	})
+	@ApiResponse({
+		status: 200,
+		description: 'Всё хорошо',
+		type: UserDao,
+		isArray: true,
+	})
+	@ApiResponse({
+		status: 401,
+		description: 'Пустой или неверный токен.',
+	})
+	// @ApiBearerAuth()
+	@Post('search')
+	// @UseGuards(JwtAuthGuard)
+	async search(
+		@Body() searchUserDto: SearchUserDto) {
+		const list = await this.usersService.find(searchUserDto);
+
+		return list.map((item) => new UserDao(item));
+	}
 
 	@ApiOperation({
 		summary: 'Информация о текущем пользователе',

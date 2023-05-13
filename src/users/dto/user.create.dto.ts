@@ -65,4 +65,13 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	@IsString()
 	position: string;
+
+	@ApiProperty({
+		example: 'День рождения',
+		description: 'День рождения',
+		required: true,
+	})
+	@IsNotEmpty()
+	@IsString()
+	birthDate: string;
 }
