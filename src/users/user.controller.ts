@@ -50,9 +50,9 @@ export class UserController {
 		status: 401,
 		description: 'Пустой или неверный токен.',
 	})
-	// @ApiBearerAuth()
+	@ApiBearerAuth()
 	@Post('searchShort')
-	// @UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	async searchShort(
 		@Body() searchUserDto: SearchUserDto
 	) {
@@ -74,9 +74,9 @@ export class UserController {
 		status: 401,
 		description: 'Пустой или неверный токен.',
 	})
-	// @ApiBearerAuth()
+	@ApiBearerAuth()
 	@Post('search')
-	// @UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	async search(
 		@Body() searchUserDto: SearchUserDto) {
 		const list = await this.usersService.find(searchUserDto);

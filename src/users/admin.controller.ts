@@ -45,9 +45,9 @@ export class AdminController {
 		status: 401,
 		description: 'Пустой или неверный токен.',
 	})
-	// @ApiBearerAuth()
+	@ApiBearerAuth()
 	@Post('changePass')
-	// @UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	async changePass(
 		@Body() changePassUserDto: ChangePassUserDto
 	) {
@@ -68,9 +68,9 @@ export class AdminController {
 		status: 401,
 		description: 'Пустой или неверный токен.',
 	})
-	// @ApiBearerAuth()
+	@ApiBearerAuth()
 	@Post('user')
-	// @UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	async createUser(
 		@Body() createUserDto: CreateUserDto
 	) {
@@ -91,9 +91,9 @@ export class AdminController {
 		status: 401,
 		description: 'Пустой или неверный токен.',
 	})
-	// @ApiBearerAuth()
+	@ApiBearerAuth()
 	@Get('users')
-	// @UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard)
 	async getUsers() {
 		return [];
 	}
