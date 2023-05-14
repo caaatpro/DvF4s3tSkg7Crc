@@ -43,11 +43,11 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ SSH_HOST }}
-          username: ${{ SSH_USER }}
-          key: ${{ SSH_KEY }}
-          port: ${{ SSH_PORT }}
+          host: $SSH_HOST
+          username: $SSH_USER
+          key: $SSH_KEY
+          port: $SSH_PORT
           script: |
-            cd ${{ SERVER_PATH_APP }}
+            cd $SERVER_PATH_APP
             docker compose pull
             docker compose up -d --force-recreate
