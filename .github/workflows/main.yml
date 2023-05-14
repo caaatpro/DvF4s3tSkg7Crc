@@ -10,11 +10,6 @@ env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_PASS}}
   DOCKER_REPO: nexus.caaat.pro/repository/docker-projects/company-api
-  SSH_HOST: ${{ secrets.SSH_HOST }}
-  SSH_USER: ${{ secrets.SSH_USER }}
-  SSH_KEY: ${{ secrets.SSH_KEY }}
-  SSH_PORT: ${{ secrets.SSH_PORT }}
-  SERVER_PATH_APP: ${{ secrets.SERVER_PATH_APP }}
 
 jobs:
   push-image-to-docker-hub:
@@ -43,11 +38,11 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: $SSH_HOST
-          username: $SSH_USER
-          key: $SSH_KEY
-          port: $SSH_PORT
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
-            cd $SERVER_PATH_APP
+            cd ${{ secrets.SERVER_PATH_APP }}
             docker compose pull
             docker compose up -d --force-recreate
