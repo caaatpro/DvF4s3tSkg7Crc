@@ -40,8 +40,6 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, swaggerConfig);
 	SwaggerModule.setup('swagger', app, document);
 
-	// app.useGlobalFilters(new HttpExceptionFilter());
-
 	const port = config.get<number>('API_PORT');
 
 	await app.listen(port || 3000, () => {
